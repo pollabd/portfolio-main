@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { ArrowUpRight, Download, Github, Linkedin } from "lucide-react";
+import { ArrowUpRight, Download } from "lucide-react";
 import { gsap } from "gsap";
 
 const heroHighlights = [
@@ -12,7 +12,6 @@ const heroHighlights = [
 
 const focusAreas = [
   "Designing reliable APIs and data flows for growing products",
-  "Translating ambiguous scopes into buildable architecture",
   "Partnering with teams to ship performant, accessible UI",
 ];
 
@@ -39,32 +38,31 @@ export const Hero = () => {
   }, []);
 
   return (
-    <section className="relative flex min-h-[calc(100vh-80px)] items-center overflow-hidden border-b border-white/10 pt-24 pb-16 md:pt-32">
+    <section className="relative flex min-h-screen items-center overflow-hidden border-b border-white/10 pt-24 pb-16 md:pt-28 lg:min-h-[calc(100vh-80px)]">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-[#2E0249]/20 blur-[120px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.06),_transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_55%)]" />
       </div>
 
       <div className="container relative z-10 mx-auto flex h-full items-center px-6">
-        <div ref={heroRef} className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="space-y-10">
-            <div className="hero-pill inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/70">
+        <div ref={heroRef} className="grid gap-8 lg:grid-cols-2 lg:items-start">
+          <div className="space-y-6">
+            <div className="hero-pill inline-flex max-w-sm items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-[10px] font-semibold tracking-[0.2em] text-white/70 sm:text-xs">
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              Software engineer building reliable web platforms
+              Engineering resilient systems
             </div>
 
-            <h1 className="hero-title text-5xl font-semibold leading-tight tracking-tight text-white md:text-6xl lg:text-7xl">
-              Crafting resilient product surfaces where clarity, performance, and polish meet.
+            <h1 className="hero-title text-4xl font-semibold leading-tight tracking-tight text-white sm:text-[2.7rem] md:text-5xl lg:text-6xl">
+              Turning complex ideas into fast, reliable, beautifully engineered experiences.
             </h1>
 
-            <p className="hero-desc max-w-2xl text-base text-white/70 md:text-lg">
-              Full-stack engineer from Dhaka who loves TypeScript, Node.js, and design-forward
-              interfaces. I help teams turn ideas into scalable products by owning the backend
-              architecture, refining the frontend, and keeping the developer experience tidy.
+            <p className="hero-desc max-w-2xl text-base text-white/70 sm:text-lg">
+              Dhaka-based full-stack engineer focused on TypeScript systems, product-minded DX, and
+              frontends that stay performant even under messy requirements.
             </p>
 
-            <div className="hero-cta flex flex-wrap gap-4">
+            <div className="hero-cta flex flex-wrap gap-2">
               <a
                 href="#projects"
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
@@ -82,7 +80,7 @@ export const Hero = () => {
               </a>
             </div>
 
-            <div className="hero-badges flex flex-wrap gap-3">
+            <div className="hero-badges hidden flex-wrap gap-3 md:flex">
               {heroHighlights.map((item) => (
                 <span
                   key={item}
@@ -93,17 +91,16 @@ export const Hero = () => {
                 </span>
               ))}
             </div>
-
           </div>
 
-          <div className="space-y-6">
-            <div className="hero-insight rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 via-white/0 to-transparent p-6 backdrop-blur-xl">
+          <div className="flex flex-col gap-4">
+            <div className="hero-insight rounded-3xl border border-white/10 bg-linear-to-br from-white/10 via-white/0 to-transparent p-5 backdrop-blur-xl">
               <p className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">
                 Operator&apos;s desk
               </p>
               <p className="mt-4 text-lg text-white/80">
-                Product-minded engineer who can move across architecture, DX, and delivery without
-                dragging the team down in meetings.
+                Product-minded engineer who moves across architecture, DX, and delivery without
+                dragging teams down in meetings.
               </p>
               <ul className="mt-6 space-y-4 text-sm text-white/70">
                 {focusAreas.map((area) => (
@@ -115,7 +112,7 @@ export const Hero = () => {
               </ul>
             </div>
 
-            <div className="hero-insight rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+            <div className="hero-insight hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl md:block lg:p-6">
               <div className="flex items-center justify-between text-sm text-white/70">
                 <span>Current availability</span>
                 <span>Booking Q1 · 2026</span>
@@ -124,9 +121,20 @@ export const Hero = () => {
                 <div className="h-2 w-3/4 rounded-full bg-primary" />
               </div>
               <p className="mt-4 text-sm text-white/60">
-                I embed with product teams as a fractional engineering lead or hands-on principal
-                IC - whichever accelerates outcomes fastest.
+                I embed with product teams as a fractional engineering lead or hands-on principal IC
+                - whichever accelerates outcomes fastest.
               </p>
+            </div>
+
+            <div className="hero-insight hidden rounded-3xl border border-white/10 bg-linear-to-r from-primary/10 via-transparent to-white/5 p-5 backdrop-blur-xl lg:flex">
+              <div className="flex flex-col gap-2">
+                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">
+                  Recent wins
+                </p>
+                <p className="text-sm text-white/70">
+                  Streaming edge cache, unified POS API, full-stack marketplace launch.
+                </p>
+              </div>
             </div>
           </div>
         </div>

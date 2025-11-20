@@ -1,5 +1,16 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment variables
+
+To enable the contact form email feature, create a `.env.local` file with:
+
+```
+RESEND_API_KEY=your_resend_api_key
+CONTACT_TARGET_EMAIL=your_destination_email@example.com
+```
+
+`RESEND_API_KEY` can be generated from the free tier at [Resend](https://resend.com). Emails submitted via the contact form will be sent to `CONTACT_TARGET_EMAIL`.
+
 ## Getting Started
 
 First, run the development server:
