@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef } from 'react';
-import { MapPin, Briefcase, CheckCircle } from 'lucide-react';
-import { gsap } from 'gsap';
-import { Section } from '@/components/ui/Section';
+import React, { useEffect, useRef } from "react";
+import { MapPin, Briefcase, CheckCircle } from "lucide-react";
+import { gsap } from "gsap";
+import { Section } from "@/components/ui/Section";
 
 const focusList = [
-  'Designing robust backend services with clean domain boundaries',
-  'Translating product goals into scalable TypeScript + React builds',
-  'Improving developer experience with better tooling & observability',
+  "Designing robust backend services with clean domain boundaries",
+  "Translating product goals into scalable TypeScript + React builds",
+  "Improving developer experience with better tooling & observability",
 ];
 
 const companies = [
-  { name: 'Data Affinity Ltd.', href: 'https://dataaffinity.com' },
-  { name: 'Stibo DX', href: 'https://www.stibodx.com' },
-  { name: 'Mediasoft Data Systems Ltd.', href: 'https://mediasoftbd.com' },
-  { name: 'Business Automation Ltd.', href: 'https://bal.com.bd' },
+  { name: "Data Affinity Ltd.", href: "https://dataaffiniti.com/" },
+  { name: "Stibo DX", href: "https://www.stibodx.com" },
+  { name: "Mediasoft Data Systems Ltd.", href: "https://mediasoftbd.com" },
+  { name: "Business Automation Ltd.", href: "https://ba-systems.com/" },
 ];
 
 export const About = () => {
@@ -25,20 +25,20 @@ export const About = () => {
     if (!aboutRef.current) return;
 
     const ctx = gsap.context(() => {
-      gsap.from('.about-intro', { y: 24, opacity: 0, duration: 0.6, ease: 'power2.out' });
-      gsap.from('.about-card', {
+      gsap.from(".about-intro", { y: 24, opacity: 0, duration: 0.6, ease: "power2.out" });
+      gsap.from(".about-card", {
         y: 30,
         opacity: 0,
         duration: 0.5,
-        ease: 'power2.out',
+        ease: "power2.out",
         stagger: 0.1,
         delay: 0.1,
       });
-      gsap.from('.about-focus li', {
+      gsap.from(".about-focus li", {
         x: -12,
         opacity: 0,
         duration: 0.4,
-        ease: 'power2.out',
+        ease: "power2.out",
         stagger: 0.08,
         delay: 0.2,
       });
