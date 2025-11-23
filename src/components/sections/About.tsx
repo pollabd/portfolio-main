@@ -75,7 +75,7 @@ export const About = () => {
               <ul className="about-focus mt-4 space-y-3 text-sm text-white/70">
                 {focusList.map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-primary" />
+                    <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
                     <span>{item}</span>
                   </li>
                 ))}

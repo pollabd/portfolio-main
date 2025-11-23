@@ -169,7 +169,7 @@ export const Experience = () => {
                   <ul className="mt-4 space-y-3 text-sm text-white/75">
                     {exp.impact.map((item) => (
                       <li key={item} className="flex gap-3">
-                        <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary/70" />
+                        <span className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-primary/70" />
                         <span>{item}</span>
                       </li>
                     ))}

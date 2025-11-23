@@ -105,7 +105,7 @@ export const Hero = () => {
               <ul className="mt-6 space-y-4 text-sm text-white/70">
                 {focusAreas.map((area) => (
                   <li key={area} className="flex items-start gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-primary" />
+                    <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
                     <span>{area}</span>
                   </li>
                 ))}

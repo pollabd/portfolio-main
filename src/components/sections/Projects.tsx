@@ -185,7 +185,7 @@ export const Projects = () => {
                   'Architecture sprints or rapid build weeks to unblock scale work',
                 ].map((item) => (
                   <li key={item} className="flex gap-3">
-                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary/70" />
+                    <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary/70" />
                     <span>{item}</span>
                   </li>
                 ))}
