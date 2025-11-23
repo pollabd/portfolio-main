@@ -1,39 +1,67 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
-    const { name, email, message } = await request.json();
-
-    if (!name || !email || !message) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    const formData = await request.formData();
+    
+    // Get the access key from environment variable
+    const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
+    
+    if (!accessKey) {
+      console.error("WEB3FORMS_ACCESS_KEY is not configured");
+      return NextResponse.json(
+        { error: "Email service is not configured. Please contact the site administrator." },
+        { status: 500 }
+      );
     }
 
-    const targetEmail = process.env.CONTACT_TARGET_EMAIL;
+    // Add the access key to form data
+    formData.append("access_key", accessKey);
 
-    if (!targetEmail) {
-      return NextResponse.json({ error: "Contact email is not configured" }, { status: 500 });
-    }
-
-    await resend.emails.send({
-      from: "Portfolio Contact <onboarding@resend.dev>",
-      to: targetEmail,
-      subject: `Portfolio inquiry from ${name}`,
-      replyTo: email,
-      text: `
-Name: ${name}
-Email: ${email}
-
-Message:
-${message}
-      `.trim(),
+    // Submit to Web3Forms
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
     });
 
-    return NextResponse.json({ success: true });
+    // Check if response is ok and is JSON
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("Web3Forms API error response:", text);
+      return NextResponse.json(
+        { error: "Failed to send email. Please try again later." },
+        { status: response.status }
+      );
+    }
+
+    // Try to parse as JSON
+    let data;
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      data = await response.json();
+    } else {
+      const text = await response.text();
+      console.error("Web3Forms returned non-JSON response:", text);
+      return NextResponse.json(
+        { error: "Unexpected response from email service." },
+        { status: 500 }
+      );
+    }
+
+    if (data.success) {
+      return NextResponse.json({ success: true, message: "Email sent successfully" });
+    } else {
+      console.error("Web3Forms API error:", data);
+      return NextResponse.json(
+        { error: data.message || "Failed to send email" },
+        { status: 500 }
+      );
+    }
   } catch (error) {
-    console.error("Contact form error", error);
-    return NextResponse.json({ error: "Unable to send your message right now." }, { status: 500 });
+    console.error("Contact form error:", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Unable to send your message right now." },
+      { status: 500 }
+    );
   }
 }

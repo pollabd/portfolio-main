@@ -1,47 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Website
 
-## Environment variables
+A modern, minimal portfolio website built with Next.js, React, and Tailwind CSS.
 
-To enable the contact form email feature, create a `.env.local` file with:
+## Features
 
+- Modern, clean UI design
+- Responsive layout
+- Smooth animations
+- Contact form with email integration
+- Dark theme
+
+## Setup
+
+1. Install dependencies:
+```bash
+npm install
 ```
-RESEND_API_KEY=your_resend_api_key
-CONTACT_TARGET_EMAIL=your_destination_email@example.com
+
+2. Create a `.env.local` file in the root directory:
+```bash
+cp .env.example .env.local
 ```
 
-`RESEND_API_KEY` can be generated from the free tier at [Resend](https://resend.com). Emails submitted via the contact form will be sent to `CONTACT_TARGET_EMAIL`.
+3. Configure your environment variables:
+   - Get your Resend API key from [https://resend.com/api-keys](https://resend.com/api-keys)
+   - Add your email address where you want to receive contact form submissions
+   - Configure the from email (must be a verified domain in Resend)
 
-## Getting Started
-
-First, run the development server:
-
+4. Run the development server:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contact Form Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The contact form uses [Resend](https://resend.com) for email delivery. To set it up:
 
-## Learn More
+1. Sign up for a free Resend account at [https://resend.com](https://resend.com)
+2. Get your API key from the dashboard
+3. Add it to your `.env.local` file as `RESEND_API_KEY`
+4. Add your email address as `CONTACT_TARGET_EMAIL`
+5. For the `RESEND_FROM_EMAIL`, you can use:
+   - `onboarding@resend.dev` (Resend's default domain - works immediately)
+   - Or verify your own domain in Resend and use `contact@yourdomain.com`
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project can be deployed on Vercel, Netlify, or any platform that supports Next.js.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Make sure to add your environment variables in your deployment platform's settings.

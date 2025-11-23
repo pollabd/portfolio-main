@@ -14,30 +14,40 @@ export const ContactForm = () => {
   });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormState('loading');
     setErrorMessage(null);
 
     try {
-      const response = await fetch('/api/contact', {
+      const formDataToSend = new FormData(e.currentTarget);
+      
+      // Get access key from environment variable (client-side)
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+      
+      if (!accessKey) {
+        throw new Error('Email service is not configured');
+      }
+      
+      formDataToSend.append('access_key', accessKey);
+
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
-      const payload = await response.json();
+      const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(payload.error || 'Something went wrong.');
+      if (data.success) {
+        setFormState('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setFormState('idle'), 5000);
+      } else {
+        throw new Error(data.message || 'Failed to send message');
       }
-
-      setFormState('success');
-      setFormData({ name: '', email: '', message: '' });
-      setTimeout(() => setFormState('idle'), 5000);
     } catch (error) {
       setFormState('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Something went wrong.');
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to send your message. Please try again.');
       setTimeout(() => setFormState('idle'), 5000);
     }
   };

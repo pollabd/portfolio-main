@@ -7,6 +7,7 @@ import { ContactForm } from '@/components/sections/ContactForm';
 import { Footer } from '@/components/sections/Footer';
 import { SmoothScroll } from '@/components/ui/SmoothScroll';
 import { PageLoader } from '@/components/ui/PageLoader';
+import { ScrollToTop } from '@/components/ui/ScrollToTop';
 import StructuredData from '@/components/StructuredData';
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
         <Experience />
         <ContactForm />
         <Footer />
+        <ScrollToTop />
       </main>
     </>
   );
