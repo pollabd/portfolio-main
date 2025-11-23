@@ -1,54 +1,58 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/Button';
-import { Send, CheckCircle, Github, Linkedin } from 'lucide-react';
-import { Section } from '@/components/ui/Section';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/Button";
+import { Send, CheckCircle, Github, Linkedin } from "lucide-react";
+import { Section } from "@/components/ui/Section";
 
 export const ContactForm = () => {
-  const [formState, setFormState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [formState, setFormState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormState('loading');
+    setFormState("loading");
     setErrorMessage(null);
 
     try {
       const formDataToSend = new FormData(e.currentTarget);
-      
-      // Get access key from environment variable (client-side)
-      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
-      
-      if (!accessKey) {
-        throw new Error('Email service is not configured');
-      }
-      
-      formDataToSend.append('access_key', accessKey);
 
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+      if (!accessKey) {
+        throw new Error("Email service is not configured");
+      }
+
+      // ⚠️ REQUIRED FIELDS to prevent spam block on Vercel
+      formDataToSend.append("access_key", accessKey);
+      formDataToSend.append("from_name", formData.name);
+      formDataToSend.append("subject", "New message from portfolio contact form");
+      formDataToSend.append("botcheck", ""); // Honeypot field
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
         body: formDataToSend,
       });
 
       const data = await response.json();
 
       if (data.success) {
-        setFormState('success');
-        setFormData({ name: '', email: '', message: '' });
-        setTimeout(() => setFormState('idle'), 5000);
+        setFormState("success");
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setFormState("idle"), 5000);
       } else {
-        throw new Error(data.message || 'Failed to send message');
+        throw new Error(data.message || "Failed to send message");
       }
     } catch (error) {
-      setFormState('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Unable to send your message. Please try again.');
-      setTimeout(() => setFormState('idle'), 5000);
+      setFormState("error");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Unable to send your message. Please try again."
+      );
+      setTimeout(() => setFormState("idle"), 5000);
     }
   };
 
@@ -68,8 +72,10 @@ export const ContactForm = () => {
         <div className="absolute left-10 top-0 h-64 w-64 rounded-full bg-primary/15 blur-[140px]" />
         <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-[#2E0249]/25 blur-[160px]" />
       </div>
+
       <div className="container relative mx-auto px-6">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+          {/* LEFT SIDE CARD */}
           <div className="rounded-[32px] border border-white/10 bg-white/[0.03] p-8">
             <p className="text-xs uppercase tracking-[0.4em] text-white/40">Next engagement</p>
             <h2 className="mt-6 text-3xl font-semibold text-white md:text-4xl lg:text-5xl">
@@ -79,11 +85,12 @@ export const ContactForm = () => {
               Ideal for product teams who need a builder that toggles between architecture, DX, and
               front-of-house polish without losing pace.
             </p>
+
             <div className="mt-8 space-y-5 text-sm text-white/70">
               {[
-                'Fractional tech leadership or principal IC roles',
-                'Architecture sprints & performance audits',
-                'Partnering with design to ship premium surfaces',
+                "Fractional tech leadership or principal IC roles",
+                "Architecture sprints & performance audits",
+                "Partnering with design to ship premium surfaces",
               ].map((item) => (
                 <div key={item} className="flex gap-3">
                   <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary/70" />
@@ -114,10 +121,11 @@ export const ContactForm = () => {
             </div>
           </div>
 
+          {/* RIGHT SIDE CONTACT FORM */}
           <div className="rounded-[32px] border border-white/10 bg-white/[0.02] p-8 backdrop-blur">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="mb-2 block text-sm text-white/60 leading-[1.4]">
+                <label htmlFor="name" className="mb-2 block text-sm text-white/60">
                   Name
                 </label>
                 <input
@@ -127,7 +135,7 @@ export const ContactForm = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-primary/30"
                   placeholder="Your name"
                 />
               </div>
@@ -143,7 +151,7 @@ export const ContactForm = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-primary/30"
                   placeholder="your.email@example.com"
                 />
               </div>
@@ -159,15 +167,15 @@ export const ContactForm = () => {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                  className="w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-primary/30"
                   placeholder="Tell me about your project..."
                 />
               </div>
 
-              <Button type="submit" size="lg" disabled={formState === 'loading'} className="w-full">
-                {formState === 'loading' ? (
+              <Button type="submit" size="lg" disabled={formState === "loading"} className="w-full">
+                {formState === "loading" ? (
                   <>Sending...</>
-                ) : formState === 'success' ? (
+                ) : formState === "success" ? (
                   <>
                     <CheckCircle className="mr-2 h-4 w-4" />
                     Message Sent!
@@ -180,12 +188,14 @@ export const ContactForm = () => {
                 )}
               </Button>
 
-              {formState === 'success' && (
-                <p className="text-center text-sm text-primary">Thanks! I&apos;ll get back to you soon.</p>
+              {formState === "success" && (
+                <p className="text-center text-sm text-primary">
+                  Thanks! I&apos;ll get back to you soon.
+                </p>
               )}
-              {formState === 'error' && (
+              {formState === "error" && (
                 <p className="text-center text-sm text-red-400">
-                  {errorMessage ?? 'Unable to send your message. Please try again in a moment.'}
+                  {errorMessage ?? "Unable to send your message. Please try again in a moment."}
                 </p>
               )}
             </form>
